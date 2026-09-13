@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Management | Experiment 5.2</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <h1>⚡ User Management System</h1>
+            <p>Global Exception Handling & Structured Logging</p>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            API Connected
+        </div>
+    </header>
+
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Dashboard Cards -->
+        <section class="dashboard">
+
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <div>
+                    <p>Total Users</p>
+                    <h2 id="totalUsers">0</h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔗</div>
+                <div>
+                    <p>API Endpoint</p>
+                    <h2>8080</h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <div>
+                    <p>Exception Handling</p>
+                    <h2>Active</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Message -->
+        <div id="message" class="message hidden"></div>
+
+
+        <!-- Add User -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <h2>➕ Add New User</h2>
+                    <p>Create a new user through the REST API.</p>
+                </div>
+            </div>
+
+            <form id="userForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="uid">User UID</label>
+                        <input
+                            type="text"
+                            id="uid"
+                            placeholder="Enter UID"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">User Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter name"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn primary">
+                    Add User
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Search -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <h2>🔍 Find User</h2>
+                    <p>Search a user using their database ID.</p>
+                </div>
+            </div>
+
+            <div class="search-box">
+
+                <input
+                    type="number"
+                    id="searchId"
+                    placeholder="Enter user ID"
+                >
+
+                <button
+                    class="btn secondary"
+                    onclick="searchUser()">
+                    Search
+                </button>
+
+            </div>
+
+            <div id="searchResult"></div>
+
+        </section>
+
+
+        <!-- Users Table -->
+        <section class="panel">
+
+            <div class="panel-header table-heading">
+
+                <div>
+                    <h2>👤 Registered Users</h2>
+                    <p>Users currently stored in the REST API.</p>
+                </div>
+
+                <button
+                    class="btn secondary"
+                    onclick="loadUsers()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>UID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="userTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Experiment Information -->
+        <section class="info-panel">
+
+            <h2>📘 Experiment 5.2</h2>
+
+            <div class="features">
+
+                <span>✓ Global Exception Handling</span>
+                <span>✓ Request Logging</span>
+                <span>✓ Correlation ID</span>
+                <span>✓ MDC Logging</span>
+                <span>✓ Standardized Responses</span>
+                <span>✓ REST CRUD Operations</span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>Full Stack Development — Experiment 5.2</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

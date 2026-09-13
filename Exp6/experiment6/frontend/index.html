@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Experiment 6.1 | Pagination & Sorting</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ==============================
+         HEADER
+    =============================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            <div class="brand-icon">📊</div>
+
+            <div>
+                <h1>Pagination & Sorting</h1>
+                <p>Spring Boot REST API</p>
+            </div>
+        </div>
+
+        <div class="experiment-badge">
+            Experiment 6.1
+        </div>
+
+    </header>
+
+
+    <!-- ==============================
+         MAIN CONTAINER
+    =============================== -->
+
+    <main class="container">
+
+
+        <!-- ==========================
+             WELCOME SECTION
+        =========================== -->
+
+        <section class="welcome">
+
+            <div>
+                <p class="eyebrow">REST API DASHBOARD</p>
+
+                <h2>User Management</h2>
+
+                <p>
+                    Efficiently manage, paginate and sort users
+                    using Spring Data JPA.
+                </p>
+            </div>
+
+            <div class="api-status">
+                <span class="status-dot"></span>
+                API Connected
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             STATISTICS
+        =========================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">👥</div>
+
+                <div>
+                    <span>Total Users</span>
+                    <strong id="totalUsers">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">📄</div>
+
+                <div>
+                    <span>Current Page</span>
+                    <strong id="currentPage">1</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">📚</div>
+
+                <div>
+                    <span>Total Pages</span>
+                    <strong id="totalPages">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">⚡</div>
+
+                <div>
+                    <span>Page Size</span>
+                    <strong id="currentSize">5</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             ADD USER
+        =========================== -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h3>Add New User</h3>
+
+                    <p>
+                        Create a new user record
+                    </p>
+                </div>
+
+                <span class="section-number">01</span>
+
+            </div>
+
+
+            <form id="userForm" class="user-form">
+
+                <div class="input-group">
+
+                    <label for="uid">
+                        UID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="uid"
+                        placeholder="e.g. E20475"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="name">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter full name"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    <span>＋</span>
+                    Add User
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ==========================
+             CONTROLS
+        =========================== -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h3>Pagination & Sorting</h3>
+
+                    <p>
+                        Control how users are displayed
+                    </p>
+                </div>
+
+                <span class="section-number">02</span>
+
+            </div>
+
+
+            <div class="controls-grid">
+
+
+                <!-- PAGE SIZE -->
+
+                <div class="input-group">
+
+                    <label for="pageSize">
+                        Users per page
+                    </label>
+
+                    <select id="pageSize">
+
+                        <option value="3">3</option>
+
+                        <option value="5" selected>
+                            5
+                        </option>
+
+                        <option value="10">
+                            10
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SORT FIELD -->
+
+                <div class="input-group">
+
+                    <label for="sortBy">
+                        Sort by
+                    </label>
+
+                    <select id="sortBy">
+
+                        <option value="uid">
+                            UID
+                        </option>
+
+                        <option value="name">
+                            Name
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SORT ORDER -->
+
+                <div class="input-group">
+
+                    <label for="sortOrder">
+                        Order
+                    </label>
+
+                    <select id="sortOrder">
+
+                        <option value="asc">
+                            Ascending
+                        </option>
+
+                        <option value="desc">
+                            Descending
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    id="applyBtn"
+                    class="btn btn-secondary">
+
+                    Apply
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================
+             USERS TABLE
+        =========================== -->
+
+        <section class="card">
+
+            <div class="section-heading users-heading">
+
+                <div>
+                    <h3>Users</h3>
+
+                    <p id="resultInfo">
+                        Loading users...
+                    </p>
+                </div>
+
+                <button
+                    id="refreshBtn"
+                    class="btn btn-refresh">
+
+                    ↻ Refresh
+
+                </button>
+
+            </div>
+
+
+            <!-- LOADING -->
+
+            <div
+                id="loading"
+                class="loading">
+
+                <div class="spinner"></div>
+
+                <p>Loading users...</p>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div
+                id="tableContainer"
+                class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>UID</th>
+
+                            <th>Name</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="userTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                id="emptyState"
+                class="empty-state hidden">
+
+                <div>👥</div>
+
+                <h3>No Users Found</h3>
+
+                <p>
+                    Add a user to see them here.
+                </p>
+
+            </div>
+
+
+            <!-- ======================
+                 PAGINATION
+            ======================= -->
+
+            <div class="pagination">
+
+                <button
+                    id="prevBtn"
+                    class="page-btn">
+
+                    ← Previous
+
+                </button>
+
+
+                <div class="page-info">
+
+                    <span>Page</span>
+
+                    <strong id="pageNumber">
+                        1
+                    </strong>
+
+                    <span>of</span>
+
+                    <strong id="pageCount">
+                        1
+                    </strong>
+
+                </div>
+
+
+                <button
+                    id="nextBtn"
+                    class="page-btn">
+
+                    Next →
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         TOAST
+    =============================== -->
+
+    <div
+        id="toast"
+        class="toast">
+
+        <span id="toastIcon">✓</span>
+
+        <span id="toastMessage">
+            Success
+        </span>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
