@@ -44,3 +44,11 @@ Full-Stack-Practical/
 ├── package.json
 ├── package-lock.json
 └── .gitignore
+
+## 👨‍💻 Author
+
+**Rittik Basak**
+
+B.Tech – 3rd Year
+
+Full Stack Development Practical
