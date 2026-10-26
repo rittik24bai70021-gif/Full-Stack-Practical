@@ -5,3 +5,9 @@ target/
 .env
 .env.local
 *.log
+Exp7/Exp 7.2/aes-token-security/bin/
+Exp7/Exp 7.2/aes-token-security/data/
+Exp7/Exp 7.2/aes-token-security/out.txt
+Exp7/Exp 7.2/aes-token-security/tmp_build.txt
+Exp8/*.zip
+Exp9/*.zip
