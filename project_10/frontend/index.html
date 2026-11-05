@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="BookVerse, a thoughtfully curated bookstore by Rittik Basak, 24BAI70021."
+    />
+    <title>BookVerse • Your next chapter</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="announcement">
+      <b>Rittik Basak · 24BAI70021</b><span>FULL STACK II / PROJECT 10</span>
+    </div>
+    <header>
+      <a href="#catalog" class="logo"
+        >b<span>v</span
+        ><strong
+          >BookVerse<small>YOUR NEIGHBOURHOOD BOOKSTORE</small></strong
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <button data-view="catalog">Discover</button
+        ><button data-view="saved">My bookshelf</button
+        ><button data-view="orders">My orders</button
+        ><button id="adminNav" data-view="admin" hidden>Admin dashboard</button>
+      </nav>
+      <div class="account">
+        <button id="notifications" aria-label="Order notifications" hidden>
+          🔔 Orders
+          <span id="notificationCount" class="notification-count">0</span>
+        </button>
+        <button id="themeToggle" aria-label="Switch colour theme">
+          Dark mode</button
+        ><button id="account">Sign in ↗</button
+        ><button id="bag" class="primary">
+          Cart <span id="count">0</span>
+        </button>
+      </div>
+    </header>
+    <main id="main"></main>
+    <footer>
+      <div class="logo">BookVerse<span>®</span></div>
+      <p>For the love of the next page.</p>
+      <p>
+        Developed by <strong>Rittik Basak · 24BAI70021</strong><br />Full
+        Stack–II · Experiment 10 · Online Bookstore Management System
+      </p>
+    </footer>
+    <dialog id="dialog">
+      <button id="close" class="close" aria-label="Close dialog">×</button>
+      <div id="modal"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
