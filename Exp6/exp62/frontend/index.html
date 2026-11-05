@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Experiment 6.2 - Caching & Query Optimization
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================================
+         Main Application Container
+    ========================================== -->
+
+    <div class="app-container">
+
+        <!-- =====================================
+             Header
+        ====================================== -->
+
+        <header class="main-header">
+
+            <div class="header-badge">
+                FULL STACK - II
+            </div>
+
+            <h1>
+                Experiment 6.2
+            </h1>
+
+            <p class="subtitle">
+                Caching & Query Optimization
+            </p>
+
+            <div class="tech-stack">
+                <span>Spring Boot</span>
+                <span>Spring Data JPA</span>
+                <span>H2 Database</span>
+                <span>Ehcache</span>
+                <span>REST API</span>
+            </div>
+
+        </header>
+
+
+        <!-- =====================================
+             Dashboard Statistics
+        ====================================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div>
+                    <p class="stat-label">
+                        Total Users
+                    </p>
+
+                    <h3 id="totalUsers">
+                        0
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⚡
+                </div>
+
+                <div>
+                    <p class="stat-label">
+                        Response Time
+                    </p>
+
+                    <h3 id="responseTime">
+                        -- ms
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💾
+                </div>
+
+                <div>
+                    <p class="stat-label">
+                        Cache Status
+                    </p>
+
+                    <h3 id="cacheStatus">
+                        Ready
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🔎
+                </div>
+
+                <div>
+                    <p class="stat-label">
+                        Last Query
+                    </p>
+
+                    <h3 id="lastQuery">
+                        None
+                    </h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             Add User
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>
+                        Add New User
+                    </h2>
+
+                    <p>
+                        Create a user with address information.
+                    </p>
+                </div>
+
+                <span class="section-number">
+                    01
+                </span>
+
+            </div>
+
+
+            <form id="userForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="uid">
+                            UID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="uid"
+                            placeholder="Example: E20458"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter user name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="city">
+                            City
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Enter city"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="country">
+                            Country
+                        </label>
+
+                        <input
+                            type="text"
+                            id="country"
+                            placeholder="Enter country"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="reset"
+                        class="btn btn-secondary"
+                    >
+                        Clear
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        + Add User
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================
+             Query Optimization
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Query Optimization Lab
+                    </h2>
+
+                    <p>
+                        Compare different database retrieval techniques.
+                    </p>
+
+                </div>
+
+                <span class="section-number">
+                    02
+                </span>
+
+            </div>
+
+
+            <div class="query-grid">
+
+                <button
+                    class="query-button normal-query"
+                    onclick="loadUsers('normal')"
+                >
+
+                    <span class="query-icon">
+                        🔴
+                    </span>
+
+                    <span class="query-content">
+
+                        <strong>
+                            Normal Query
+                        </strong>
+
+                        <small>
+                            Basic JPA retrieval
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="query-button optimized-query"
+                    onclick="loadUsers('optimized')"
+                >
+
+                    <span class="query-icon">
+                        🔵
+                    </span>
+
+                    <span class="query-content">
+
+                        <strong>
+                            JOIN FETCH
+                        </strong>
+
+                        <small>
+                            Optimized User + Address
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="query-button cached-query"
+                    onclick="loadUsers('cached')"
+                >
+
+                    <span class="query-icon">
+                        🟣
+                    </span>
+
+                    <span class="query-content">
+
+                        <strong>
+                            Cached Query
+                        </strong>
+
+                        <small>
+                            Ehcache powered request
+                        </small>
+
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="query-button native-query"
+                    onclick="loadUsers('native')"
+                >
+
+                    <span class="query-icon">
+                        🟠
+                    </span>
+
+                    <span class="query-content">
+
+                        <strong>
+                            Native SQL
+                        </strong>
+
+                        <small>
+                            Direct database query
+                        </small>
+
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- Query Information -->
+
+            <div
+                class="query-info"
+                id="queryInfo"
+            >
+
+                <div>
+
+                    <span class="info-label">
+                        Current Operation
+                    </span>
+
+                    <strong id="operationName">
+                        Waiting for query
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span class="info-label">
+                        Status
+                    </span>
+
+                    <span
+                        id="queryStatus"
+                        class="status-badge status-ready"
+                    >
+                        READY
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             Sorting
+        ====================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Sort Users
+                    </h2>
+
+                    <p>
+                        Retrieve users using optimized sorted queries.
+                    </p>
+
+                </div>
+
+                <span class="section-number">
+                    03
+                </span>
+
+            </div>
+
+
+            <div class="sorting-controls">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="loadUsers('sort/id')"
+                >
+                    ↕ Sort by ID
+                </button>
+
+
+                <button
+                    class="btn btn-info"
+                    onclick="loadUsers('sort/name')"
+                >
+                    A-Z Sort by Name
+                </button>
+
+
+                <button
+                    class="btn btn-dark"
+                    onclick="refreshUsers()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             User List
+        ====================================== -->
+
+        <section class="card user-list-card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        User List
+                    </h2>
+
+                    <p id="tableSubtitle">
+                        Execute a query to load users.
+                    </p>
+
+                </div>
+
+
+                <div class="table-count">
+
+                    <span id="tableUserCount">
+                        0
+                    </span>
+
+                    Users
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                UID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                City
+                            </th>
+
+                            <th>
+                                Country
+                            </th>
+
+                            <th class="action-column">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="userTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="empty-state"
+                            >
+
+                                <div class="empty-icon">
+                                    📂
+                                </div>
+
+                                <strong>
+                                    No data loaded
+                                </strong>
+
+                                <p>
+                                    Select one of the query options above.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             Educational Information
+        ====================================== -->
+
+        <section class="learning-card">
+
+            <div>
+
+                <span class="learning-icon">
+                    💡
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Experiment Concept
+                </h3>
+
+                <p>
+                    This experiment demonstrates how caching and
+                    optimized database queries can improve application
+                    performance. Normal queries, JOIN FETCH, Ehcache,
+                    native SQL and sorting techniques can be compared
+                    using the same dataset.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             Footer
+        ====================================== -->
+
+        <footer>
+
+            <p>
+                Experiment 6.2 • Caching & Query Optimization
+            </p>
+
+            <span>
+                Spring Boot REST API
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <!-- =========================================
+         Loading Overlay
+    ========================================== -->
+
+    <div
+        id="loadingOverlay"
+        class="loading-overlay hidden"
+    >
+
+        <div class="loader"></div>
+
+        <p>
+            Processing request...
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         Toast Notification
+    ========================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    >
+
+        <div id="toastIcon">
+            ✓
+        </div>
+
+        <div>
+
+            <strong id="toastTitle">
+                Success
+            </strong>
+
+            <p id="toastMessage">
+                Operation completed successfully.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         Delete Confirmation Modal
+    ========================================== -->
+
+    <div
+        id="deleteModal"
+        class="modal-overlay hidden"
+    >
+
+        <div class="modal">
+
+            <div class="modal-icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Delete User?
+            </h3>
+
+            <p>
+                Are you sure you want to delete this user?
+                This action cannot be undone.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="closeDeleteModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="btn btn-danger"
+                    id="confirmDeleteButton"
+                >
+                    Delete User
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
